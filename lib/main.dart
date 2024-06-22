@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:euro_24_guess/pages/groups.dart';
+import 'package:euro_24_guess/pages/groups/groups.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
