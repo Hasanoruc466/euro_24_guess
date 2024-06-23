@@ -1,3 +1,4 @@
+import 'package:euro_24_guess/models/TeamDetail.dart';
 import 'package:euro_24_guess/pages/groups/groupCard.dart';
 import 'package:euro_24_guess/pages/groups/thirdsTeamsPopUp.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -12,9 +13,9 @@ class GroupsPage extends StatefulWidget {
 class _GroupsPageState extends State<GroupsPage> {
   final DatabaseReference _firebaseRef =
       FirebaseDatabase.instance.ref("euro24/groups");
-  Map<dynamic, dynamic> firstTeams = Map();
-  Map<dynamic, dynamic> secondTeams = Map();
-  Map<dynamic, dynamic> thirdTeams = Map();
+  List<Teams> firstTeams = [];
+  List<Teams> secondTeams = [];
+  List<Teams> thirdTeams = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,30 +39,66 @@ class _GroupsPageState extends State<GroupsPage> {
                       List<dynamic> teams =
                           List<dynamic>.from(entry.value['teams']);
                       if (teams.length > 0) {
-                        firstTeams[groupName] = teams.first;
+                        try {
+                          var existingGroup = firstTeams
+                              .firstWhere((team) => team.group == groupName);
+                          existingGroup.update(teams.first);
+                        } catch (e) {
+                          firstTeams.add(Teams(teams.first, groupName));
+                        }
                       }
 
                       if (teams.length > 1) {
-                        secondTeams[groupName] = teams[1];
+                        try {
+                          var existingGroup = secondTeams
+                              .firstWhere((team) => team.group == groupName);
+                          existingGroup.update(teams[1]);
+                        } catch (e) {
+                          secondTeams.add(Teams(teams[1], groupName));
+                        }
                       }
 
                       if (teams.length > 2) {
-                        thirdTeams[groupName] = teams[2];
+                        try {
+                          var existingGroup = thirdTeams
+                              .firstWhere((team) => team.group == groupName);
+                          existingGroup.update(teams[2]);
+                        } catch (e) {
+                          thirdTeams.add(Teams(teams[2], groupName));
+                        }
                       }
                       return GroupCard(
                         groupName: groupName,
                         teams: teams,
                         onReorder: (List<dynamic> newTeams) {
-                          if (newTeams.length > 0) {
-                            firstTeams[groupName] = teams.first;
+                          if (teams.length > 0) {
+                            try {
+                              var existingGroup = firstTeams.firstWhere(
+                                  (team) => team.group == groupName);
+                              existingGroup.update(teams.first);
+                            } catch (e) {
+                              firstTeams.add(Teams(teams.first, groupName));
+                            }
                           }
 
-                          if (newTeams.length > 1) {
-                            secondTeams[groupName] = teams[1];
+                          if (teams.length > 1) {
+                            try {
+                              var existingGroup = secondTeams.firstWhere(
+                                  (team) => team.group == groupName);
+                              existingGroup.update(teams[1]);
+                            } catch (e) {
+                              secondTeams.add(Teams(teams[1], groupName));
+                            }
                           }
 
-                          if (newTeams.length > 2) {
-                            thirdTeams[groupName] = teams[2];
+                          if (teams.length > 2) {
+                            try {
+                              var existingGroup = thirdTeams.firstWhere(
+                                  (team) => team.group == groupName);
+                              existingGroup.update(teams[2]);
+                            } catch (e) {
+                              thirdTeams.add(Teams(teams[2], groupName));
+                            }
                           }
                         },
                       );
@@ -81,7 +118,13 @@ class _GroupsPageState extends State<GroupsPage> {
         backgroundColor: Colors.redAccent,
         child: const Icon(Icons.keyboard_arrow_right_sharp),
         onPressed: () {
-          showDialog(context: context, builder: (BuildContext context) => ThirdsTeamsPopup(teams: thirdTeams));
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => ThirdsTeamsPopup(
+                    teams: thirdTeams,
+                    firstTeams: firstTeams,
+                    secondTeams: secondTeams,
+                  ));
         },
       ),
     );

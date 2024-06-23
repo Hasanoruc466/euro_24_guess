@@ -1,24 +1,21 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:euro_24_guess/models/TeamDetail.dart';
+import 'package:euro_24_guess/pages/finals/last16playoff.dart';
 import 'package:flutter/material.dart';
 
 class ThirdsTeamsPopup extends StatefulWidget {
-  final Map<dynamic, dynamic> teams;
+  final List<Teams> teams;
+  final List<Teams> firstTeams;
+  final List<Teams> secondTeams;
 
-  const ThirdsTeamsPopup({Key? key, required this.teams}) : super(key: key);
+  const ThirdsTeamsPopup({Key? key, required this.teams, required this.firstTeams, required this.secondTeams}) : super(key: key);
 
   @override
   State<ThirdsTeamsPopup> createState() => _ThirdTeamsPopUpState();
 }
 
 class _ThirdTeamsPopUpState extends State<ThirdsTeamsPopup> {
-  late List<Teams> teams;
   List<Teams> temp = [];
-  @override
-  void initState() {
-    super.initState();
-    teams = widget.teams.values.map((e) => Teams(e)).toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +25,9 @@ class _ThirdTeamsPopUpState extends State<ThirdsTeamsPopup> {
         width: double.maxFinite,
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: teams.length,
+          itemCount: widget.teams.length,
           itemBuilder: (BuildContext context, int index) {
-            final item = teams[index];
+            final item = widget.teams[index];
             return CheckboxListTile(
               title: Text(item.name),
               value: temp.contains(item),
@@ -44,21 +41,23 @@ class _ThirdTeamsPopUpState extends State<ThirdsTeamsPopup> {
                 });
               },
               secondary:
-                  CountryFlag.fromCountryCode(item.code, shape: Circle()),
+                  CountryFlag.fromCountryCode(item.code, shape: const Circle()),
             );
           },
         ),
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () {
-            Navigator.pop(context);
+          onPressed: () {       
+             Navigator.pop(context);
           },
           child: const Text('İptal Et'),
         ),
         TextButton(
           onPressed: () {
-              Navigator.pop(context);
+            if(temp.length == 4){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Last16PlayOff(firstTeams:  widget.firstTeams, secondTeams: widget.secondTeams, thirdTeams: temp)));
+            }
           },
           child: const Text('Tamam'),
         ),
@@ -86,7 +85,6 @@ Widget _teamsChecboxList(Map<dynamic, dynamic> map) {
             } else {
               temp.remove(item);
             }
-            print(temp.contains(item));
           },
         );
       },
