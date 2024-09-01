@@ -13,6 +13,14 @@ class Teams {
     this.code = team["code"];
   }
 
+  void setGroup(String group){
+    this.group = group;
+  }
+
+  String getName() {
+    return this.name;
+  }
+
   @override
   String toString() {
     // TODO: implement toString
