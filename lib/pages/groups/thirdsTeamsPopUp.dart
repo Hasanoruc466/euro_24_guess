@@ -1,4 +1,3 @@
-import 'package:country_flags/country_flags.dart';
 import 'package:euro_24_guess/models/TeamDetail.dart';
 import 'package:euro_24_guess/pages/finals/last16playoff.dart';
 import 'package:euro_24_guess/widgets/customCheckBox.dart';

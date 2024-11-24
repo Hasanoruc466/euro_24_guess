@@ -1,3 +1,5 @@
+import 'package:country_flags/country_flags.dart';
+import 'package:euro_24_guess/main.dart';
 import 'package:euro_24_guess/models/TeamDetail.dart';
 import 'package:euro_24_guess/models/TeamVersus.dart';
 import 'package:euro_24_guess/utils/RulesUtils.dart';
@@ -40,7 +42,7 @@ class _FinalsState extends State<Finals> {
       appBar: AppBar(
         title: Text(_finalName),
       ),
-       body: Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: _teamVersus
@@ -81,9 +83,52 @@ class _FinalsState extends State<Finals> {
         backgroundColor: Colors.redAccent,
         child: const Icon(Icons.keyboard_arrow_right_sharp),
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => Finals(teamVersus: selectedTeam.length == 4 ? SemiFinalMatches(selectedTeam) : FinalMatches(selectedTeam)));
+          if (selectedTeam.length == 1) {
+            Teams champion = selectedTeam.first;
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      title: Text('Şampiyon ${champion.name}'),
+                      content: const Text(
+                        'Tebrikler 2024 Avrupa Futbol Şampiyonasını tamamladınız. Umarım tahmininiz gerçekleşmiştir. Ana Sayfaya dönmek için Devam Et butonuna tıklayınız...',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyHomePage(
+                                      title: ''),
+                                ),
+                                (Route<dynamic> route) =>
+                                    false, // Tüm önceki sayfaları kaldırır
+                              );
+                            },
+                            child: const Text(
+                              "Devam Et",
+                              style: TextStyle(fontSize: 12),
+                            ))
+                      ],
+                      icon: SizedBox(
+                        width: 200, // Bayrağın genişliği
+                        height: 150, // Bayrağın yüksekliği
+                        child: CountryFlag.fromCountryCode(
+                          champion.code,
+                          width: 100,
+                          height: 100,
+                        ),
+                      ),
+                    ));
+          } else {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => Finals(
+                    teamVersus: selectedTeam.length == 4
+                        ? SemiFinalMatches(selectedTeam)
+                        : FinalMatches(selectedTeam)));
+          }
         },
       ),
     );
