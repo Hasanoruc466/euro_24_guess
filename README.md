@@ -17,11 +17,11 @@ Firebase: Takım verilerini (grup ve takım adı) dinamik olarak almak için.
 ```bash
 git clone https://github.com/kullaniciadi/euro2024-tahmin
 cd euro2024-tahmin
-
+```
 2.
 ```bash
 flutter pub get
-
+```
 3. Firebase Yapılandırmasını Yapın:
     Firebase projesi oluşturun ve Flutter uygulamanızı Firebase'e bağlayın.
     RealTime Database'e takım verilerini ekleyin.
@@ -29,7 +29,7 @@ flutter pub get
 4. Uygulamayı Başlatın: 
    ```bash
 flutter run
-
+```
 **Takım Verileri**
 ```json
 {
