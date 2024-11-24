@@ -27,9 +27,10 @@ flutter pub get
     RealTime Database'e takım verilerini ekleyin.
 
 4. Uygulamayı Başlatın: 
-   ```bash
-flutter run
+```bash
+    flutter run
 ```
+
 **Takım Verileri**
 ```json
 {
