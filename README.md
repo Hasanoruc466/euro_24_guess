@@ -13,17 +13,22 @@ Dart: Kodlama dili.
 Firebase: Takım verilerini (grup ve takım adı) dinamik olarak almak için.
 
 **Kurulum ve Kullanım**
-1. ```bash git clone https://github.com/kullaniciadi/euro2024-tahmin
+1.
+```bash
+git clone https://github.com/kullaniciadi/euro2024-tahmin
 cd euro2024-tahmin
 
-2.```bash flutter pub get
+2.
+```bash
+flutter pub get
 
 3. Firebase Yapılandırmasını Yapın:
     Firebase projesi oluşturun ve Flutter uygulamanızı Firebase'e bağlayın.
     RealTime Database'e takım verilerini ekleyin.
 
 4. Uygulamayı Başlatın: 
-   ```bash flutter run
+   ```bash
+flutter run
 
 **Takım Verileri**
 ```json
